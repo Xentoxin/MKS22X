@@ -1,5 +1,5 @@
 
-public class Recursion {
+public class sqrt {
 	public static String name() {
 		return "Chen,HaoYu";
 	}

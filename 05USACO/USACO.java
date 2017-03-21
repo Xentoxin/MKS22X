@@ -69,7 +69,6 @@ public class USACO {
         }
         return board;
     }
-	//Silver C-Travel not done yet
 	public static int silver(String filename){
 		File input = new File(filename);
 		Scanner sc;
