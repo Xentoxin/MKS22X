@@ -1,65 +1,50 @@
 import java.util.Random;
 
-public class part {
+public class Quick {
 	public static void main(String[] args) {
-		int[] ary = { 99, 999, 99999, 1, 3, 0, 6, 2, 9995, 99999 };
-		QuickSort(ary);
+		int[] ary = {6,5,3,1,4, 2,0 };
+		partition(ary, 0 ,6);
 		System.out.println(toString(ary));
+System.out.println(quickselect(ary, 5));
+		quicksort(ary);
+		System.out.println(toString(ary));
+		
 	}
 
 	public static int partition(int[] ary, int start, int end) {
 		Random rand = new Random();
-		int r = rand.nextInt((end - start) + start);
+		int r = rand.nextInt(end - start) + start;
 		if (r == end) {
 			r--;
 		}
 		int comp = ary[r];
 		int s = start;
 		int e = end - 1;
-		int temp = ary[end];
-		ary[end] = comp;
-		ary[r] = temp;
-		while (s != e && e!= s - 1 && e != s+1) {
-			if (ary[s] > comp && ary[e] < comp) {
-				temp = ary[e];
-				ary[e] = ary[s];
-				ary[s] = temp;
-				e--;
+		swap(ary, end, r);
+		while (s <= e) {
+			if (ary[s] < comp) {
 				s++;
 			}
-			else if(ary[s] > comp)  e--;
-			else if(ary[e] < comp) s++;
 			else{
+				swap(ary, s, e);
 				e--;
-				s++;
 			}
-		}
-		if(e != s){
-			if(ary[s] > ary[e]){
-				temp = ary[e];
-				ary[e] = ary[s];
-				ary[s] = temp;
-			}
-		}
-		while(ary[s] < comp){
-			s++;
-		}
-		temp = ary[s];
-		ary[s] = comp;
-		ary[end] = temp;
+	}
+		swap(ary, s, end);
 		return s;
 	}
-	public static int quickSelect(int[] data, int x){
+	public static int quickselect(int[] data, int x){
 		return selectHelper(data, x, 0 , data.length-1);
 	}
 	public static int selectHelper(int[] data, int x, int start, int end){
-		if(end == start) return data[end];
+		if(end <= start) return data[end];
 		int pivot = partition(data, start, end);
 		if(pivot == x) return data[pivot];
 		else if(pivot > x) return selectHelper(data, x, 0 , pivot-1);
 		else return selectHelper(data, x, pivot +1 , data.length -1);
 	}
-public static void QuickSort(int[] data){
+	
+public static void quicksort(int[] data){
 	quickHelper(data , 0 , data.length -1);
 			}
 public static void quickHelper(int[] data , int start, int end){
@@ -69,6 +54,11 @@ public static void quickHelper(int[] data , int start, int end){
 		quickHelper(data, pivot +1 , end);
 		
 	}
+}
+public static void swap(int[] ary, int x, int y){
+	int temp = ary[x];
+	ary[x] = ary[y];
+	ary[y] = temp;
 }
 public static String toString(int[] ary){
 	String s = "[";
