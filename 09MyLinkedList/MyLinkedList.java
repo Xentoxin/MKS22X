@@ -3,12 +3,12 @@ public class MyLinkedList {
 	private int size;
 
 	public static void main(String[] args) {
-	MyLinkedList m = new MyLinkedList();
-	m.add(1);
-	m.add(2);
-	m.add(3);
+		MyLinkedList m = new MyLinkedList();
+		m.add(1);
+		m.add(2);
+		m.add(3);
 
-	System.out.println(m.toString());
+		System.out.println(m.toString());
 	}
 
 	public MyLinkedList() {
@@ -21,50 +21,99 @@ public class MyLinkedList {
 	}
 
 	public void add(int v) {
-		LNode x = new LNode(v);
-		LNode y = start;
-		if (start == null) {
-			start = x;
-		} else {
-			while (y.getNext() != null) {
-				y.next = y.getNext();
-			}
-			y.setNext(x);
+		if(size == 0){
+			start = new LNode(v);
+			size++;
 		}
+		LNode x = start;
+		while(x.next != null){
+			x = x.next;
+		}
+		x.next = new LNode(v);
 		size++;
 	}
 
 	public void add(int v, int pos) {
-		LNode x = new LNode(v);
-		LNode y = start;
-		if (pos == 0) {
-			x.setNext(start);
-			start = x;
-		} else {
-			for (int i = 0; i < pos; i++) {
-				y = y.getNext();
-			}
-			x.setNext(y.getNext());
-			y.setNext(x);
+		if (pos > size) {
+			throw new IndexOutOfBoundsException();
 		}
+		int counter = 0;
+		LNode x = start;
+		while (counter < pos) {
+			x = x.next;
+			counter++;
+		}
+		x = new LNode(v, x);
+		counter = 0;
+		LNode y = start;
+		while (counter < pos - 1) {
+			y = y.next;
+			counter++;
+		}
+		y.next = x;
 		size++;
 	}
+
 	public int get(int index) {
-		LNode x = start;
-		for (int i = 0; i < index; i++) {
-			x = x.getNext();
+		if(index >= size) {
+			throw new IndexOutOfBoundsException();
 		}
-		return x.getValue();
+		int counter = 0;
+		LNode x = start;
+		while(counter < index) {
+			x = x.getNext();
+			counter ++;
+		}
+		return x.value;
+	}
+	public void set(int index , int v){
+		if(index >= size){
+			throw new IndexOutOfBoundsException();
+		}
+		int counter = 0;
+		LNode x = start;
+		while(counter < index){
+			x = x.next;
+			counter++;
+		}
+		x.value = v;
+	}
+	public int indexOf(int v){
+		int counter = 0;
+		LNode x = start;
+		while(x.value != v){
+			if(x.next == null){
+				return -1;
+			}
+			x = x.next;
+			counter++;
+		}
+		return counter;
+	}
+	public int remove(int index){
+		if(index >= size){
+			throw new IndexOutOfBoundsException();
+		}
+		int counter = 0 ;
+		LNode x = start; 
+		while(counter < index - 1){
+			x = x.next;
+			counter++;
+		}
+		LNode y = x.next.next;
+		x.next = y;
+		size--;
+		return index;
 	}
 
 	public String toString() {
-		String str = "[ " + start.getValue() + " ";
+		String str = "[ ";
 		LNode x = start;
-		while(x.getNext() != null){
-			x = x.getNext();
-			str += x.getValue() + " ";
+		for (int i = 0; i < size; i++) {
+			str += x.value + " ";
+			x = x.next;
 		}
-		return str + "]";
+		return str.substring(0,str.length()-1) + "]";
 	}
 
 	private class LNode {
